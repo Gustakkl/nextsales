@@ -21,3 +21,14 @@ export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
 }
+
+declare global {
+  interface AIStudio {
+    hasSelectedApiKey(): Promise<boolean>;
+    openSelectKey(): Promise<void>;
+  }
+
+  interface Window {
+    aistudio: AIStudio;
+  }
+}

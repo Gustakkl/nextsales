@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Icons } from './Icons';
 import { ChatMessage } from '../types';
-import { sendMessageToGemini } from '../services/geminiService';
+import { sendMessageToGemini, resetChatSession } from '../services/geminiService';
 
 export const AIChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,10 +10,38 @@ export const AIChat: React.FC = () => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [hasKey, setHasKey] = useState(true);
   
   // Refs
   const scrollRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Check API Key on load/open
+  useEffect(() => {
+    const checkKey = async () => {
+      if (window.aistudio) {
+        const hasSelected = await window.aistudio.hasSelectedApiKey();
+        setHasKey(hasSelected);
+      }
+    };
+    checkKey();
+  }, [isOpen]);
+
+  const handleConnectKey = async () => {
+    if (window.aistudio) {
+      try {
+        await window.aistudio.openSelectKey();
+        const hasSelected = await window.aistudio.hasSelectedApiKey();
+        if (hasSelected) {
+          setHasKey(true);
+          resetChatSession(); // Reset service session to pick up new key
+          // Optionally send a "hello" or just let user type
+        }
+      } catch (e) {
+        console.error("Failed to select key", e);
+      }
+    }
+  };
 
   // Scroll to bottom on new messages with smooth behavior
   useEffect(() => {
@@ -55,6 +83,12 @@ export const AIChat: React.FC = () => {
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
+    // Check key before sending
+    if (!hasKey) {
+      handleConnectKey();
+      return;
+    }
+
     const userMsg = input;
     setInput('');
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
@@ -63,8 +97,13 @@ export const AIChat: React.FC = () => {
     try {
       const response = await sendMessageToGemini(userMsg);
       setMessages(prev => [...prev, { role: 'model', text: response }]);
-    } catch (e) {
-      setMessages(prev => [...prev, { role: 'model', text: 'Erro de conexão. Tente novamente.' }]);
+    } catch (e: any) {
+      if (e.message === "API_KEY_MISSING" || e.message === "API Key missing") {
+        setHasKey(false);
+        setMessages(prev => [...prev, { role: 'model', text: '⚠️ Acesso negado. Por favor, conecte sua chave de API para continuar.' }]);
+      } else {
+        setMessages(prev => [...prev, { role: 'model', text: 'Erro de conexão. Tente novamente.' }]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +128,7 @@ export const AIChat: React.FC = () => {
           {/* Header */}
           <div className="bg-slate-900 p-4 flex justify-between items-center border-b border-cyan-500/30">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-ping" />
+              <div className={`w-2 h-2 rounded-full animate-ping ${hasKey ? 'bg-green-500' : 'bg-red-500'}`} />
               <span className="text-cyan-400 font-bold tracking-wider">NEX_ASSISTANT_V2</span>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white">
@@ -116,6 +155,20 @@ export const AIChat: React.FC = () => {
               </div>
             ))}
             
+            {/* API Key Warning / Connect Button */}
+            {!hasKey && (
+              <div className="flex justify-center py-4">
+                <button 
+                  onClick={handleConnectKey}
+                  className="bg-red-900/20 border border-red-500 text-red-400 px-4 py-2 rounded text-xs font-bold uppercase tracking-wider hover:bg-red-900/40 transition-colors animate-pulse"
+                >
+                  <span className="flex items-center gap-2">
+                    <Icons.Lock size={14} /> Conectar Neural Link (API Key)
+                  </span>
+                </button>
+              </div>
+            )}
+
             {/* Cyberpunk Loader */}
             {isLoading && (
               <div className="flex justify-start w-full">
@@ -147,13 +200,13 @@ export const AIChat: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder={isLoading ? "Aguarde a resposta..." : "Digite sua pergunta..."}
-              disabled={isLoading}
+              placeholder={isLoading ? "Aguarde a resposta..." : (hasKey ? "Digite sua pergunta..." : "Conecte a chave para iniciar")}
+              disabled={isLoading || !hasKey}
               className="flex-1 bg-black border border-slate-700 text-white px-3 py-2 rounded focus:outline-none focus:border-cyan-500 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               onClick={handleSend}
-              disabled={isLoading}
+              disabled={isLoading || !hasKey}
               className={`bg-cyan-600 hover:bg-cyan-500 text-white p-2 rounded transition-all disabled:opacity-50 disabled:grayscale ${isLoading ? 'cursor-not-allowed' : ''}`}
             >
               <Icons.Send size={18} />

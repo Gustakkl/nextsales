@@ -21,8 +21,13 @@ Responda a perguntas sobre preços, diferenças entre os planos e suporte técni
 Seja conciso e incentive o fechamento da venda.
 `;
 
+export const resetChatSession = () => {
+  chatSession = null;
+};
+
 export const getChatSession = (): Chat => {
-  if (!chatSession) {
+  // Always check for API KEY to ensure we have a valid instance
+  if (!chatSession && process.env.API_KEY) {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     chatSession = ai.chats.create({
       model: 'gemini-2.5-flash',
@@ -31,20 +36,28 @@ export const getChatSession = (): Chat => {
       },
     });
   }
+  // If we still don't have a session (no API key), throw or handle gracefully in caller
+  if (!chatSession) {
+    throw new Error("API Key missing");
+  }
   return chatSession;
 };
 
 export const sendMessageToGemini = async (message: string): Promise<string> => {
   if (!process.env.API_KEY) {
-    return "ERRO: API Key não configurada. O sistema de IA está offline.";
+     // Instead of returning a static string, we throw to let the UI handle the "Connect Key" state
+    throw new Error("API_KEY_MISSING");
   }
 
   try {
     const chat = getChatSession();
     const response = await chat.sendMessage({ message });
     return response.text || "Sem resposta do servidor central.";
-  } catch (error) {
+  } catch (error: any) {
     console.error("Erro na comunicação com Gemini:", error);
+    if (error.message === "API_KEY_MISSING" || error.message === "API Key missing") {
+        throw error;
+    }
     return "Falha na conexão neural. Tente novamente mais tarde.";
   }
 };
