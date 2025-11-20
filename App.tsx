@@ -4,27 +4,26 @@ import { CyberButton } from './components/CyberButton';
 import { ProductCard } from './components/ProductCard';
 import { PricingCard } from './components/PricingCard';
 import { AIChat } from './components/AIChat';
-import { LoginModal } from './components/LoginModal';
-import { ClientDashboard } from './components/ClientDashboard';
+import { MatrixRain } from './components/MatrixRain';
 import { Product, Plan } from './types';
 
 // --- Data ---
 const PRODUCTS: Product[] = [
   {
-    id: 'bijou',
-    name: 'NexSales Bijuterias',
-    tagline: 'Precisão para Detalhes Preciosos',
-    description: 'O sistema definitivo para joalherias. Controle de estoque unitário, etiquetas Code-128 e gestão de consignado em uma interface de vidro.',
-    features: ['Etiquetas Inteligentes', 'Gestão de Consignado', 'Rastreio Unitário', 'Tendências AI'],
+    id: 'maletas',
+    name: 'NexSales Maletas',
+    tagline: 'Gestão Total de Consignado',
+    description: 'O sistema definitivo para distribuidores. Monte maletas em segundos, controle o que sai e o que volta, e calcule comissões automaticamente. Financeiro completo incluso.',
+    features: ['Montagem de Maletas', 'Acerto Automático', 'App da Revendedora', 'Financeiro Completo'],
     icon: 'diamond',
     color: 'pink'
   },
   {
-    id: 'caixa',
-    name: 'NexSales Caixa',
-    tagline: 'Velocidade Supersônica',
-    description: 'PDV projetado para o caos. Processamento instantâneo, fechamento cego e integração fiscal total. Nunca deixe seu cliente esperando.',
-    features: ['PDV Instantâneo', 'NFC-e/SAT Fiscal', 'Fechamento Cego', 'Modo Offline'],
+    id: 'finance',
+    name: 'NexSales Finance',
+    tagline: 'Estoque & Fluxo de Caixa',
+    description: 'Controle blindado para sua operação interna. Gestão rigorosa de estoque, contas a pagar/receber e emissão de etiquetas. Focado em quem não trabalha com consignado.',
+    features: ['Fluxo de Caixa', 'Controle de Estoque', 'Emissão de Etiquetas', 'DRE em Tempo Real'],
     icon: 'cart',
     color: 'cyan'
   }
@@ -32,67 +31,82 @@ const PRODUCTS: Product[] = [
 
 const PLANS: Plan[] = [
   {
-    id: 'starter',
-    name: 'Iniciante',
-    price: 'R$ 99',
-    priceYearly: 'R$ 79',
-    features: ['1 Usuário Neural', 'Até 500 SKUs', 'Suporte Email', 'Backup Nuvem'],
+    id: 'star',
+    name: 'STAR',
+    price: 'R$ 59,99',
+    priceYearly: 'R$ 49,99',
+    features: [
+      '3 Usuários',
+      'Maletas Ilimitadas',
+      'Controle Financeiro & Estoque',
+      'Etiquetas (PDF) & Clientes',
+      'Garantia Virtual'
+    ],
+    recommended: false
+  },
+  {
+    id: 'evolui',
+    name: 'EVOLUI',
+    price: 'R$ 99,99',
+    priceYearly: 'R$ 79,99',
+    features: [
+      '5 Usuários',
+      'Tudo do STAR +',
+      'Promoções e Cupons',
+      'Conferência de Entrega',
+      'Integração E-commerce',
+      'Líder de Revendedoras'
+    ],
     recommended: false
   },
   {
     id: 'pro',
-    name: 'Profissional',
-    price: 'R$ 199',
-    priceYearly: 'R$ 159',
-    features: ['3 Usuários Neurais', 'SKUs Ilimitados', 'Suporte WhatsApp', 'Fiscal Ilimitado', 'Dashboard AI'],
+    name: 'PRO',
+    price: 'R$ 169,99',
+    priceYearly: 'R$ 139,99',
+    features: [
+      '8 Usuários',
+      'Tudo do EVOLUI +',
+      'Emissão Fiscal (NF-e/Cupom)',
+      'Área Logada do Consumidor',
+      'Boletim Automático',
+      'Níveis de Revendedoras'
+    ],
     recommended: true
   },
   {
-    id: 'enterprise',
-    name: 'Corporativo',
-    price: 'Consulte',
-    features: ['Usuários Ilimitados', 'Multi-Lojas', 'API Dedicada', 'Gerente de Conta', 'IA Preditiva Custom'],
+    id: 'elite',
+    name: 'ELITE',
+    price: 'R$ 199,99',
+    priceYearly: 'R$ 169,99',
+    features: [
+      '15 Usuários',
+      'Tudo do PRO +',
+      'Relatórios via IA',
+      'Maleta Mágica & Gamificação',
+      'App para Representantes',
+      'Contrato Virtual & Aluguel'
+    ],
     recommended: false
-  }
-];
-
-const TESTIMONIALS = [
-  {
-    name: "Sarah 'Viper' Connor",
-    role: "CEO, Neo-Joias",
-    text: "O controle de estoque unitário mudou o jogo. Antes perdíamos 15% em furtos e erros. Com o NexSales Bijuterias, a precisão é cirúrgica.",
-    rating: 5
-  },
-  {
-    name: "Marcos Tech",
-    role: "Gerente, MegaVarejo",
-    text: "O PDV não trava. Nunca. Passamos pela Black Friday processando 3 vendas por segundo e o sistema nem piscou. A sincronia offline é bruxaria.",
-    rating: 5
-  },
-  {
-    name: "Elena 2077",
-    role: "Franqueada, StyleCorp",
-    text: "A interface é linda, meus funcionários aprenderam em 10 minutos. É como usar um software do futuro hoje.",
-    rating: 4
   }
 ];
 
 const FAQS = [
   {
-    q: "O sistema funciona sem internet?",
-    a: "Afirmativo. O NexSales opera com um núcleo híbrido. Você vende offline e o sistema sincroniza com a nuvem assim que a conexão neural é restabelecida."
+    q: "Como funciona a montagem da maleta?",
+    a: "Você bipa as peças com leitor de código de barras. O sistema cria um romaneio digital automático vinculado à revendedora. Ao retornar, você bipa o que voltou e o sistema calcula a venda."
   },
   {
-    q: "Preciso comprar servidor dedicado?",
-    a: "Negativo. Todo o processamento pesado ocorre em nossos clusters na nuvem. Você só precisa de um computador básico ou tablet."
+    q: "O plano Financeiro permite fazer maletas?",
+    a: "Negativo. O plano Finance é focado em gestão interna (loja/estoque). Para consignado, você precisa do módulo Maletas (Plano Pro)."
   },
   {
-    q: "O suporte técnico é humano ou robô?",
-    a: "Híbrido. Nossa IA resolve 80% dos casos instantaneamente. Para problemas complexos, nossos engenheiros de elite assumem o controle via acesso remoto seguro."
+    q: "Consigo ver o ranking de melhores revendedoras?",
+    a: "Afirmativo. O Dashboard Neural classifica seus agentes de campo por volume de vendas, menor índice de devolução e pontualidade no acerto."
   },
   {
-    q: "Emite notas fiscais (NFC-e / NF-e)?",
-    a: "Totalmente homologado em todos os estados da federação. Integração nativa com SAT, MFE e certificados A1."
+    q: "O sistema imprime etiquetas de joias?",
+    a: "Sim. Compatível com impressoras Zebra e Argox. Etiquetas específicas para joias (bopp, código de barras pequeno e resistente)."
   }
 ];
 
@@ -132,6 +146,55 @@ const useTypewriter = (text: string, speed: number = 100) => {
 
 // --- Internal Components ---
 
+const ProcessTimeline = () => {
+  const steps = [
+    {
+      icon: Icons.Package,
+      title: "1. Montagem da Maleta",
+      desc: "Selecione as joias bipando o código de barras. O sistema cria um romaneio digital automático vinculado à revendedora.",
+      color: "text-cyan-400",
+      border: "border-cyan-500"
+    },
+    {
+      icon: Icons.Users,
+      title: "2. Período de Venda",
+      desc: "A revendedora recebe a maleta e o espelho via WhatsApp/App. Ela vende durante o ciclo combinado (ex: 30 dias).",
+      color: "text-fuchsia-400",
+      border: "border-fuchsia-500"
+    },
+    {
+      icon: Icons.RefreshCw,
+      title: "3. Acerto Inteligente",
+      desc: "No retorno, você bipa APENAS o que sobrou. O sistema calcula automaticamente: Vendas, Comissão e Lucro Líquido.",
+      color: "text-green-400",
+      border: "border-green-500"
+    }
+  ];
+
+  return (
+    <div className="grid md:grid-cols-3 gap-8 relative">
+      {/* Connector Line (Desktop) */}
+      <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-900 via-fuchsia-900 to-green-900 -z-10"></div>
+
+      {steps.map((step, i) => (
+        <div key={i} className="reveal-on-scroll relative bg-black/60 border border-slate-800 p-8 rounded-xl backdrop-blur-sm group hover:bg-slate-900/80 transition-all duration-300">
+          <div className={`w-16 h-16 rounded-full bg-slate-950 border-2 ${step.border} flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform mx-auto md:mx-0`}>
+            <step.icon size={32} className={step.color} />
+          </div>
+          <h3 className="text-xl font-bold text-white mb-3 font-orbitron">{step.title}</h3>
+          <p className="text-gray-400 leading-relaxed text-sm">{step.desc}</p>
+          
+          {i < 2 && (
+            <div className="md:hidden flex justify-center my-4 text-slate-700">
+              <Icons.ArrowRight size={24} className="rotate-90" />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const ContactForm = () => {
   return (
     <form className="space-y-6 bg-slate-900/50 p-8 border border-slate-700 backdrop-blur-sm rounded-lg relative overflow-hidden group">
@@ -139,22 +202,22 @@ const ContactForm = () => {
       
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label className="text-cyan-400 text-xs uppercase tracking-widest font-bold">Codinome / Nome</label>
-          <input type="text" className="w-full bg-black/50 border border-slate-700 text-white p-3 focus:border-cyan-400 focus:outline-none transition-colors clip-path-input" placeholder="Digite seu nome" />
+          <label className="text-cyan-400 text-xs uppercase tracking-widest font-bold">Nome Completo</label>
+          <input type="text" className="w-full bg-black/50 border border-slate-700 text-white p-3 focus:border-cyan-400 focus:outline-none transition-colors clip-path-input" placeholder="Seu nome" />
         </div>
         <div className="space-y-2">
-          <label className="text-cyan-400 text-xs uppercase tracking-widest font-bold">Frequência / Email</label>
-          <input type="email" className="w-full bg-black/50 border border-slate-700 text-white p-3 focus:border-cyan-400 focus:outline-none transition-colors clip-path-input" placeholder="email@exemplo.com" />
+          <label className="text-cyan-400 text-xs uppercase tracking-widest font-bold">Email Corporativo</label>
+          <input type="email" className="w-full bg-black/50 border border-slate-700 text-white p-3 focus:border-cyan-400 focus:outline-none transition-colors clip-path-input" placeholder="voce@empresa.com" />
         </div>
       </div>
       
       <div className="space-y-2">
-        <label className="text-cyan-400 text-xs uppercase tracking-widest font-bold">Dados da Missão / Mensagem</label>
-        <textarea rows={4} className="w-full bg-black/50 border border-slate-700 text-white p-3 focus:border-cyan-400 focus:outline-none transition-colors clip-path-input" placeholder="Descreva sua necessidade..."></textarea>
+        <label className="text-cyan-400 text-xs uppercase tracking-widest font-bold">Como podemos ajudar?</label>
+        <textarea rows={4} className="w-full bg-black/50 border border-slate-700 text-white p-3 focus:border-cyan-400 focus:outline-none transition-colors clip-path-input" placeholder="Descreva sua operação (nº de revendedoras, volume, etc)..." />
       </div>
 
       <CyberButton variant="cyan" className="w-full flex items-center justify-center gap-2" onClick={(e) => e.preventDefault()}>
-        <Icons.Send size={18} /> Iniciar Protocolo de Contato
+        <Icons.Send size={18} /> Solicitar Demonstração
       </CyberButton>
     </form>
   );
@@ -169,14 +232,14 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
         onClick={() => setIsOpen(!isOpen)}
         className="w-full p-5 flex items-center justify-between text-left focus:outline-none"
       >
-        <span className={`font-bold uppercase tracking-wider ${isOpen ? 'text-cyan-400' : 'text-gray-300'}`}>
-          <span className="text-fuchsia-500 mr-2">root@user:~$</span> {question}
+        <span className={`font-bold uppercase tracking-wider text-sm md:text-base ${isOpen ? 'text-cyan-400' : 'text-gray-300'}`}>
+          {question}
         </span>
         {isOpen ? <Icons.ChevronUp className="text-cyan-400" /> : <Icons.ChevronDown className="text-gray-500" />}
       </button>
       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="p-5 pt-0 text-gray-400 border-t border-slate-800/50 font-mono text-sm leading-relaxed">
-          {'>'} {answer}
+        <div className="p-5 pt-0 text-gray-400 border-t border-slate-800/50 font-sans text-sm leading-relaxed">
+          {answer}
         </div>
       </div>
     </div>
@@ -190,11 +253,7 @@ const App: React.FC = () => {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  // Client Area State
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isClientArea, setIsClientArea] = useState(false);
-
-  const heroTitle = useTypewriter("SISTEMA OPERACIONAL V3.0", 100);
+  const heroTitle = useTypewriter("SISTEMA DE MALETAS V4.0", 100);
   
   useIntersectionObserver();
 
@@ -204,345 +263,328 @@ const App: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLogin = () => {
-    setIsLoginModalOpen(false);
-    setIsClientArea(true);
-    setMobileMenuOpen(false);
-    window.scrollTo(0, 0);
-  };
-
-  const handleLogout = () => {
-    setIsClientArea(false);
-    window.scrollTo(0, 0);
-  };
-
   return (
     <div className="min-h-screen font-rajdhani text-gray-200 selection:bg-fuchsia-500/30 selection:text-fuchsia-200 overflow-x-hidden">
+      <MatrixRain />
       
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)}
-        onLogin={handleLogin}
-      />
-
       {/* Navigation */}
       <nav className={`
         fixed top-0 w-full z-50 transition-all duration-500 border-b
-        ${scrolled || isClientArea ? 'bg-black/90 backdrop-blur-md py-3 border-cyan-900/50' : 'bg-transparent py-6 border-transparent'}
+        ${scrolled ? 'bg-black/90 backdrop-blur-md py-3 border-cyan-900/50' : 'bg-transparent py-6 border-transparent'}
       `}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div 
-            className="text-2xl font-orbitron font-black tracking-widest italic flex items-center gap-2 group cursor-pointer"
-            onClick={() => setIsClientArea(false)}
+            className="flex items-center gap-3 group cursor-pointer"
+            onClick={() => window.scrollTo(0, 0)}
           >
-            <div className="w-3 h-3 bg-cyan-400 rotate-45 group-hover:animate-spin"></div>
-            NEX<span className="text-cyan-400 group-hover:text-fuchsia-400 transition-colors">SALES</span>
+            <img 
+              src="https://i.postimg.cc/Vs35JqPQ/Whats-App-Image-2025-11-12-at-17-40-27-removebg-preview.png" 
+              alt="NexSales Logo" 
+              className="h-12 w-auto object-contain rounded-md border border-cyan-500/20 shadow-[0_0_15px_rgba(34,211,238,0.1)] group-hover:scale-105 transition-transform"
+            />
+            <span className="sr-only">NexSales</span>
           </div>
           
           {/* Desktop Menu */}
-          {!isClientArea && (
-            <div className="hidden md:flex gap-8 font-medium tracking-wider text-sm uppercase items-center">
-              {['Sistemas', 'Recursos', 'Planos', 'FAQ', 'Contato'].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} className="relative text-gray-400 hover:text-white transition-colors group">
-                  {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
-                </a>
-              ))}
-              <CyberButton 
-                variant="pink" 
-                className="text-xs py-2 px-6 scale-90"
-                onClick={() => setIsLoginModalOpen(true)}
-              >
-                Área do Cliente
-              </CyberButton>
-            </div>
-          )}
+          <div className="hidden md:flex gap-8 font-medium tracking-wider text-xs uppercase items-center">
+            {['Workflow', 'Sistemas', 'Planos', 'FAQ', 'Contato'].map((item) => (
+              <a key={item} href={`#${item.toLowerCase()}`} className="relative text-gray-400 hover:text-white transition-colors group">
+                {item}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
+              </a>
+            ))}
+          </div>
 
           {/* Mobile Toggle */}
-          {!isClientArea && (
-            <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? <Icons.X /> : <Icons.Terminal />}
-            </button>
-          )}
+          <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <Icons.X /> : <Icons.Terminal />}
+          </button>
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenuOpen && !isClientArea && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-black/95 border-b border-cyan-500/30 p-6 flex flex-col gap-4 animate-slideDown">
-             {['Sistemas', 'Recursos', 'Planos', 'FAQ', 'Contato'].map((item) => (
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-black/95 border-b border-cyan-500/30 p-6 flex flex-col gap-4 animate-slideDown shadow-2xl">
+             {['Workflow', 'Sistemas', 'Planos', 'FAQ', 'Contato'].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)} className="text-lg font-orbitron text-cyan-400 border-l-2 border-transparent hover:border-fuchsia-500 pl-4 transition-all">
                 {item}
               </a>
             ))}
-            <button 
-              className="text-left text-lg font-orbitron text-fuchsia-400 border-l-2 border-transparent hover:border-white pl-4 transition-all"
-              onClick={() => setIsLoginModalOpen(true)}
-            >
-              ÁREA DO CLIENTE
-            </button>
           </div>
         )}
       </nav>
 
-      {/* Content Switcher */}
-      {isClientArea ? (
-        <ClientDashboard onLogout={handleLogout} />
-      ) : (
-        <>
-          {/* Hero Section */}
-          <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-            {/* Dynamic Background Elements */}
-            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-600/20 blur-[120px] rounded-full animate-pulse pointer-events-none" />
-            <div className="absolute bottom-0 -right-20 w-96 h-96 bg-fuchsia-600/20 blur-[120px] rounded-full animate-pulse pointer-events-none delay-1000" />
+      {/* Hero Section */}
+      <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        {/* Dynamic Background Elements */}
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-600/10 blur-[120px] rounded-full animate-pulse pointer-events-none" />
+        <div className="absolute bottom-0 -right-20 w-96 h-96 bg-fuchsia-600/10 blur-[120px] rounded-full animate-pulse pointer-events-none delay-1000" />
 
-            <div className="container mx-auto px-6 relative z-10 text-center">
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-1 border border-cyan-500/30 rounded-full bg-cyan-950/30 backdrop-blur-md">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
-                <span className="text-cyan-400 text-xs uppercase tracking-[0.3em] font-bold">{heroTitle}<span className="animate-pulse">_</span></span>
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          
+          {/* Trust Badge */}
+          <div className="flex justify-center mb-8">
+              <div className="bg-slate-900/50 border border-slate-700 rounded-full px-4 py-1 flex items-center gap-2 backdrop-blur-sm">
+                <div className="flex -space-x-2">
+                    <div className="w-6 h-6 rounded-full bg-gray-700 border-2 border-black"></div>
+                    <div className="w-6 h-6 rounded-full bg-gray-600 border-2 border-black"></div>
+                    <div className="w-6 h-6 rounded-full bg-gray-500 border-2 border-black"></div>
+                </div>
+                <span className="text-xs text-gray-300 font-medium tracking-wide">Usado por +500 Distribuidores</span>
               </div>
-              
-              <h1 className="text-6xl md:text-8xl font-black mb-6 leading-tight tracking-tighter glitch-wrapper">
-                <span className="glitch-effect" data-text="DOMINE">DOMINE</span><br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-fuchsia-500">O MERCADO</span>
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed border-l-2 border-fuchsia-500 pl-6 text-left md:text-center md:border-l-0 md:pl-0">
-                Não é apenas um sistema. É uma vantagem competitiva desleal para sua loja de <span className="text-fuchsia-400 font-bold">Bijuterias</span> e <span className="text-cyan-400 font-bold">Varejo</span>.
-              </p>
-              
-              <div className="flex flex-col md:flex-row justify-center gap-6">
-                <CyberButton variant="cyan" glow className="text-lg px-10 py-4">Inicializar Demo</CyberButton>
-                <CyberButton variant="pink" className="text-lg px-10 py-4 bg-transparent">Ver Hardware</CyberButton>
-              </div>
+          </div>
 
-               <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-80">
-                {[
-                  { val: '0.2s', label: 'Latência' },
-                  { val: '99.9%', label: 'Uptime' },
-                  { val: 'AI', label: 'Analytics' },
-                  { val: 'AES-256', label: 'Segurança' }
-                ].map((stat, i) => (
-                  <div key={i} className="border-l border-cyan-900 pl-4 text-left">
-                    <div className="text-3xl font-bold text-white font-orbitron">{stat.val}</div>
-                    <div className="text-xs uppercase tracking-widest text-cyan-500 font-bold">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </header>
+          <div className="inline-flex items-center gap-2 mb-6 px-4 py-1 border border-cyan-500/30 rounded-full bg-cyan-950/30 backdrop-blur-md">
+            <span className="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+            <span className="text-cyan-400 text-xs uppercase tracking-[0.3em] font-bold">{heroTitle}<span className="animate-pulse">_</span></span>
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight tracking-tighter">
+            CONTROLE DE<br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-fuchsia-500 drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">
+              MALETAS E CAIXA
+            </span>
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
+            A plataforma definitiva para <strong className="text-white">Distribuidores de Joias</strong>. Automatize o acerto de consignado, elimine erros de cálculo e profissionalize sua gestão financeira.
+          </p>
+          
+          <div className="flex flex-col md:flex-row justify-center gap-6 mb-20">
+            <CyberButton variant="pink" glow className="text-base md:text-lg px-10 py-4">
+              Começar Agora
+            </CyberButton>
+            <CyberButton variant="cyan" className="text-base md:text-lg px-10 py-4 bg-transparent hover:bg-cyan-950/30">
+              Ver Demonstração
+            </CyberButton>
+          </div>
 
-          {/* Products Section */}
-          <section id="sistemas" className="py-32 relative">
-            <div className="container mx-auto px-6">
-              <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6 reveal-on-scroll">
-                 <div>
-                   <h2 className="text-4xl md:text-5xl font-black uppercase tracking-wide mb-2">
-                     Arsenal <span className="text-cyan-400">Tecnológico</span>
-                   </h2>
-                   <p className="text-gray-400 text-lg max-w-md">Ferramentas especializadas para operações de alto desempenho.</p>
-                 </div>
-                 <div className="hidden md:block h-px w-32 bg-gradient-to-r from-transparent to-cyan-500"></div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto border-t border-slate-800 pt-12 opacity-80">
+            {[
+              { val: '95%', label: 'Menos tempo no Acerto' },
+              { val: 'Zero', label: 'Erros de Cálculo' },
+              { val: '24/7', label: 'Sincronização Nuvem' },
+              { val: 'Auto', label: 'Gestão de Comissões' }
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <div className="text-3xl font-bold text-white font-orbitron mb-1">{stat.val}</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">{stat.label}</div>
               </div>
+            ))}
+          </div>
+        </div>
+      </header>
 
-              <div className="grid lg:grid-cols-2 gap-16">
-                {PRODUCTS.map((product, i) => (
-                  <div key={product.id} className={`reveal-on-scroll`} style={{ transitionDelay: `${i * 200}ms` }}>
-                    <ProductCard product={product} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+        {/* Workflow Section - NEW */}
+        <section id="workflow" className="py-24 bg-slate-950 border-y border-slate-900 relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16 reveal-on-scroll">
+            <h2 className="text-3xl font-bold uppercase tracking-widest mb-4 text-white">
+              O Ciclo da <span className="text-cyan-400">Maleta Perfeita</span>
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">Entenda como o NexSales revoluciona a logística do seu consignado em 3 passos simples.</p>
+          </div>
+          
+          <ProcessTimeline />
+        </div>
+      </section>
 
-          {/* Hardware Compatibility Section */}
-          <section id="hardware" className="py-20 bg-slate-900/20 border-y border-slate-800 relative">
-            <div className="container mx-auto px-6">
-              <div className="flex flex-col items-center text-center mb-12 reveal-on-scroll">
-                <Icons.Cpu className="text-fuchsia-500 mb-4" size={40} />
-                <h2 className="text-3xl font-bold uppercase tracking-widest mb-4">Equipamento Compatível</h2>
-                <p className="text-gray-400 max-w-xl">Nosso código roda nos metais mais resistentes do mercado.</p>
-              </div>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 reveal-on-scroll delay-200">
-                {[
-                  { icon: Icons.Printer, label: "Impressoras Térmicas", detail: "Epson, Bematech, Elgin" },
-                  { icon: Icons.Scan, label: "Scanners 1D/2D", detail: "Leitura em < 0.1ms" },
-                  { icon: Icons.Smartphone, label: "Mobile / Tablets", detail: "Android & iOS" },
-                  { icon: Icons.CreditCard, label: "TEF Integrado", detail: "Stone, Cielo, Rede" },
-                ].map((item, i) => (
-                  <div key={i} className="bg-black/40 border border-slate-800 p-6 rounded-lg hover:border-cyan-400 transition-all group text-center">
-                    <div className="inline-flex p-4 bg-slate-800 rounded-full text-cyan-400 mb-4 group-hover:scale-110 group-hover:bg-cyan-900/20 transition-all">
-                      <item.icon size={24} />
-                    </div>
-                    <h4 className="font-bold text-white mb-1">{item.label}</h4>
-                    <p className="text-xs text-gray-500 font-mono">{item.detail}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Features Grid */}
-          <section id="recursos" className="py-32 bg-slate-950/50 relative overflow-hidden">
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-            
-            <div className="container mx-auto px-6 relative z-10">
-              <div className="text-center mb-20 reveal-on-scroll">
-                <div className="inline-block border border-fuchsia-500/30 px-3 py-1 rounded text-fuchsia-400 text-xs font-bold tracking-widest uppercase mb-4">Core Features</div>
-                <h2 className="text-4xl font-bold uppercase tracking-widest mb-4">Arquitetura do Sistema</h2>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-8">
-                 {[
-                   { title: "Cloud Híbrida", icon: Icons.Zap, text: "Sincronização quântica. Funciona offline e atualiza a nuvem assim que a conexão retorna.", color: "text-yellow-400" },
-                   { title: "Cyber Security", icon: Icons.Shield, text: "Criptografia de ponta-a-ponta. Seus dados de faturamento protegidos como segredos de estado.", color: "text-cyan-400" },
-                   { title: "Neural Analytics", icon: Icons.BarChart3, text: "IA preditiva que analisa tendências de vendas antes mesmo delas acontecerem.", color: "text-fuchsia-400" }
-                 ].map((feat, i) => (
-                   <div key={i} className="reveal-on-scroll p-8 border border-slate-800 bg-black/40 hover:bg-slate-900/60 transition-all duration-300 rounded-xl hover:-translate-y-2 hover:border-cyan-500/30 group">
-                     <div className={`w-14 h-14 bg-slate-900 rounded-lg flex items-center justify-center ${feat.color} mb-6 group-hover:scale-110 transition-transform border border-slate-800 group-hover:border-current shadow-[0_0_15px_rgba(0,0,0,0.5)]`}>
-                       <feat.icon size={28} />
-                     </div>
-                     <h4 className="text-2xl font-bold text-white mb-3 font-orbitron">{feat.title}</h4>
-                     <p className="text-gray-400 leading-relaxed">{feat.text}</p>
-                   </div>
-                 ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Pricing Section */}
-          <section id="planos" className="py-32 relative">
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-900 to-transparent"></div>
-            <div className="container mx-auto px-6">
-              <div className="text-center mb-16 reveal-on-scroll">
-                <h2 className="text-5xl font-bold uppercase tracking-widest mb-6 text-white">
-                  Planos de Acesso
+      {/* Products Section */}
+      <section id="sistemas" className="py-32 relative bg-black/50">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6 reveal-on-scroll">
+              <div>
+                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-wide mb-2 text-white">
+                  Nossas <span className="text-fuchsia-500">Soluções</span>
                 </h2>
-                
-                {/* Pricing Toggle */}
-                <div className="flex items-center justify-center gap-4 mb-8">
-                  <span className={`text-sm font-bold tracking-widest uppercase ${billingCycle === 'monthly' ? 'text-white' : 'text-gray-500'}`}>Mensal</span>
-                  <button 
-                    onClick={() => setBillingCycle(prev => prev === 'monthly' ? 'yearly' : 'monthly')}
-                    className="w-16 h-8 bg-slate-800 rounded-full p-1 relative border border-cyan-500/50 transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)]"
-                  >
-                    <div className={`w-6 h-6 bg-cyan-400 rounded-full shadow-sm transition-all duration-300 ${billingCycle === 'yearly' ? 'translate-x-8' : 'translate-x-0'}`}></div>
-                  </button>
-                  <span className={`text-sm font-bold tracking-widest uppercase ${billingCycle === 'yearly' ? 'text-cyan-400' : 'text-gray-500'}`}>Anual <span className="text-[10px] bg-fuchsia-600 text-white px-1 rounded ml-1">-20%</span></span>
-                </div>
+                <p className="text-gray-400 text-lg max-w-md">Tecnologia modular adaptada ao tamanho da sua operação.</p>
               </div>
+              <div className="hidden md:block h-px w-32 bg-gradient-to-r from-transparent to-fuchsia-500"></div>
+          </div>
 
-              <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-                {PLANS.map((plan, i) => (
-                  <div key={plan.id} className="reveal-on-scroll" style={{ transitionDelay: `${i * 150}ms` }}>
-                    <PricingCard plan={plan} billingCycle={billingCycle} />
-                  </div>
-                ))}
+          <div className="grid lg:grid-cols-2 gap-12">
+            {PRODUCTS.map((product, i) => (
+              <div key={product.id} className={`reveal-on-scroll`} style={{ transitionDelay: `${i * 200}ms` }}>
+                <ProductCard product={product} />
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hardware Compatibility Section */}
+      <section id="hardware" className="py-24 bg-gradient-to-b from-slate-900/80 to-black/80 border-y border-slate-800 relative">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col items-center text-center mb-16 reveal-on-scroll">
+            <div className="p-3 bg-fuchsia-900/20 rounded-full mb-6 text-fuchsia-400">
+              <Icons.Cpu size={32} />
             </div>
-          </section>
-
-          {/* Testimonials Section */}
-          <section className="py-24 relative overflow-hidden">
-             <div className="container mx-auto px-6 relative z-10">
-                <div className="text-center mb-16 reveal-on-scroll">
-                  <h2 className="text-3xl font-bold uppercase tracking-widest text-white mb-2">Transmissões de <span className="text-fuchsia-500">Parceiros</span></h2>
-                  <div className="w-24 h-1 bg-fuchsia-500 mx-auto"></div>
+            <h2 className="text-3xl font-bold uppercase tracking-widest mb-4 text-white">Ecossistema Integrado</h2>
+            <p className="text-gray-400 max-w-xl">Compatibilidade nativa com os principais periféricos do mercado.</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 reveal-on-scroll delay-200">
+            {[
+              { icon: Icons.Printer, label: "Impressoras Térmicas", detail: "Zebra, Argox, Elgin" },
+              { icon: Icons.Scan, label: "Leitores CCD/Laser", detail: "Leitura ultra-rápida" },
+              { icon: Icons.Smartphone, label: "Mobile First", detail: "iOS & Android Nativo" },
+              { icon: Icons.Briefcase, label: "Gestão de RFID", detail: "Compatível (Add-on)" },
+            ].map((item, i) => (
+              <div key={i} className="bg-slate-950/50 border border-slate-800 p-8 rounded-xl hover:border-cyan-400 transition-all group text-center hover:-translate-y-1 shadow-lg">
+                <div className="inline-flex p-4 bg-slate-900 rounded-full text-cyan-400 mb-6 group-hover:scale-110 group-hover:bg-cyan-900/20 transition-all shadow-[0_0_15px_rgba(0,0,0,0.3)]">
+                  <item.icon size={28} />
                 </div>
+                <h4 className="font-bold text-white mb-2 text-lg">{item.label}</h4>
+                <p className="text-sm text-gray-500">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                <div className="grid md:grid-cols-3 gap-8">
-                  {TESTIMONIALS.map((testi, i) => (
-                    <div key={i} className="reveal-on-scroll p-6 bg-slate-900/40 border border-slate-800 backdrop-blur-sm rounded-tl-2xl rounded-br-2xl hover:bg-slate-800/60 transition-all relative">
-                      <div className="absolute -top-3 -left-3 text-fuchsia-500/20">
-                        <Icons.MessageSquare size={40} />
-                      </div>
-                      <div className="flex gap-1 mb-4 text-cyan-400">
-                         {[...Array(5)].map((_, starI) => (
-                           <Icons.Star key={starI} size={14} fill={starI < testi.rating ? "currentColor" : "none"} className={starI < testi.rating ? "text-cyan-400" : "text-gray-700"} />
-                         ))}
-                      </div>
-                      <p className="text-gray-300 mb-6 italic relative z-10">"{testi.text}"</p>
-                      <div className="flex items-center gap-3 border-t border-slate-800 pt-4">
-                        <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center font-bold text-black">
-                          {testi.name.charAt(0)}
-                        </div>
-                        <div>
-                          <div className="font-bold text-white text-sm">{testi.name}</div>
-                          <div className="text-xs text-fuchsia-400 font-mono">{testi.role}</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-             </div>
-          </section>
+      {/* Pricing Section */}
+      <section id="planos" className="py-32 relative bg-slate-950/80">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-900 to-transparent"></div>
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16 reveal-on-scroll">
+            <h2 className="text-5xl font-bold uppercase tracking-widest mb-6 text-white">
+              Planos & Valores
+            </h2>
+            
+            {/* Pricing Toggle */}
+            <div className="flex items-center justify-center gap-4 mb-8 bg-black/40 inline-flex p-2 rounded-full border border-slate-800 backdrop-blur-sm">
+              <button 
+                onClick={() => setBillingCycle('monthly')}
+                className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all ${billingCycle === 'monthly' ? 'bg-slate-700 text-white shadow-md' : 'text-gray-500 hover:text-gray-300'}`}
+              >
+                Mensal
+              </button>
+              <button 
+                onClick={() => setBillingCycle('yearly')}
+                className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all flex items-center gap-2 ${billingCycle === 'yearly' ? 'bg-cyan-600 text-white shadow-[0_0_15px_rgba(8,145,178,0.4)]' : 'text-gray-500 hover:text-gray-300'}`}
+              >
+                Anual <span className="text-[10px] bg-black/50 px-1.5 py-0.5 rounded border border-white/10">-20%</span>
+              </button>
+            </div>
+          </div>
 
-          {/* FAQ Section */}
-          <section id="faq" className="py-24 bg-black relative">
-            <div className="container mx-auto px-6 max-w-3xl">
-              <div className="text-center mb-12 reveal-on-scroll">
-                <div className="inline-flex items-center justify-center p-3 bg-cyan-900/20 rounded-full text-cyan-400 mb-4">
-                  <Icons.HelpCircle size={24} />
-                </div>
-                <h2 className="text-3xl font-bold uppercase tracking-widest text-white">Banco de Dados Neural (FAQ)</h2>
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-[1400px] mx-auto items-stretch">
+            {PLANS.map((plan, i) => (
+              <div key={plan.id} className="reveal-on-scroll h-full" style={{ transitionDelay: `${i * 100}ms` }}>
+                <PricingCard plan={plan} billingCycle={billingCycle} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-24 bg-black/80 relative">
+        <div className="container mx-auto px-6 max-w-3xl">
+          <div className="text-center mb-12 reveal-on-scroll">
+            <div className="inline-flex items-center justify-center p-3 bg-cyan-900/20 rounded-full text-cyan-400 mb-4 border border-cyan-500/20">
+              <Icons.HelpCircle size={24} />
+            </div>
+            <h2 className="text-3xl font-bold uppercase tracking-widest text-white">Perguntas Frequentes</h2>
+          </div>
+          
+          <div className="reveal-on-scroll delay-100">
+            {FAQS.map((faq, i) => (
+              <FAQItem key={i} question={faq.q} answer={faq.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact / Footer Section */}
+      <footer id="contato" className="pt-24 pb-12 bg-slate-950 relative border-t border-slate-900">
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 mb-20">
+            <div className="reveal-on-scroll">
+                <div className="mb-8">
+                <h2 className="text-4xl font-bold mb-4 text-white">Fale com um Especialista</h2>
+                <p className="text-gray-400 text-lg">Nossa equipe de implantação está pronta para desenhar o projeto ideal para sua distribuidora.</p>
               </div>
               
-              <div className="reveal-on-scroll delay-100">
-                {FAQS.map((faq, i) => (
-                  <FAQItem key={i} question={faq.q} answer={faq.a} />
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Contact / Footer Section */}
-          <footer id="contato" className="py-20 bg-slate-950 relative border-t border-slate-900">
-            <div className="container mx-auto px-6">
-              <div className="grid lg:grid-cols-2 gap-16 mb-20">
-                <div className="reveal-on-scroll">
-                   <div className="mb-8">
-                    <h2 className="text-4xl font-bold mb-4 text-white">INICIAR CONEXÃO</h2>
-                    <p className="text-gray-400">Nossos agentes estão prontos para implantar o sistema na sua base.</p>
-                  </div>
-                  
-                  <div className="space-y-6 font-rajdhani">
-                    <div className="flex items-center gap-4 p-4 bg-slate-900/30 border border-slate-800 rounded hover:border-cyan-500 transition-colors">
-                      <div className="bg-cyan-900/20 p-3 rounded text-cyan-400"><Icons.Send size={20}/></div>
-                      <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-widest">Canal de Email</div>
-                        <div className="text-lg text-white">comercial@nexsales.cyber</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-4 bg-slate-900/30 border border-slate-800 rounded hover:border-fuchsia-500 transition-colors">
-                      <div className="bg-fuchsia-900/20 p-3 rounded text-fuchsia-400"><Icons.MessageSquare size={20}/></div>
-                      <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-widest">Link Neural (WhatsApp)</div>
-                        <div className="text-lg text-white">+55 11 99999-0000</div>
-                      </div>
-                    </div>
+              <div className="space-y-6 font-rajdhani mt-10">
+                <div className="flex items-center gap-4 p-5 bg-slate-900/30 border border-slate-800 rounded-xl hover:border-cyan-500 transition-colors group cursor-pointer">
+                  <div className="bg-cyan-900/20 p-3 rounded-full text-cyan-400 group-hover:bg-cyan-500 group-hover:text-black transition-all"><Icons.Send size={24}/></div>
+                  <div>
+                    <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">Email Corporativo</div>
+                    <div className="text-xl text-white font-medium">comercial@nexsales.com.br</div>
                   </div>
                 </div>
-
-                <div className="reveal-on-scroll delay-200">
-                  <ContactForm />
-                </div>
-              </div>
-
-              <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 opacity-50 hover:opacity-100 transition-opacity">
-                <div className="text-2xl font-orbitron font-black italic">
-                  NEX<span className="text-cyan-400">SALES</span>
-                </div>
-                <div className="text-xs text-gray-500 uppercase tracking-widest">
-                  © 2077 NexSales Systems. Protocolo Seguro.
+                <div className="flex items-center gap-4 p-5 bg-slate-900/30 border border-slate-800 rounded-xl hover:border-fuchsia-500 transition-colors group cursor-pointer">
+                  <div className="bg-fuchsia-900/20 p-3 rounded-full text-fuchsia-400 group-hover:bg-fuchsia-500 group-hover:text-black transition-all"><Icons.MessageSquare size={24}/></div>
+                  <div>
+                    <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">WhatsApp Comercial</div>
+                    <div className="text-xl text-white font-medium">+55 11 99999-0000</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </footer>
 
-          {/* Chat Widget - Only on landing page */}
-          <AIChat />
-        </>
-      )}
+            <div className="reveal-on-scroll delay-200">
+              <ContactForm />
+            </div>
+          </div>
+
+          {/* Professional Footer Columns */}
+          <div className="border-t border-slate-900 pt-16 pb-8 grid md:grid-cols-4 gap-12">
+            <div className="col-span-1 md:col-span-1">
+              <img 
+                src="https://i.postimg.cc/Vs35JqPQ/Whats-App-Image-2025-11-12-at-17-40-27-removebg-preview.png" 
+                alt="NexSales Logo" 
+                className="h-16 w-auto mb-6 rounded-lg border border-slate-800 opacity-80 hover:opacity-100 transition-opacity"
+              />
+              <p className="text-gray-500 text-sm leading-relaxed mb-6">
+                Transformando a gestão de joias e consignado através de tecnologia de ponta e design futurista.
+              </p>
+              <div className="flex gap-4">
+                <a href="#" className="text-gray-500 hover:text-white transition-colors"><Icons.Instagram size={20} /></a>
+                <a href="#" className="text-gray-500 hover:text-white transition-colors"><Icons.Facebook size={20} /></a>
+                <a href="#" className="text-gray-500 hover:text-white transition-colors"><Icons.Linkedin size={20} /></a>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="text-white font-bold uppercase tracking-widest mb-6 text-sm">Produto</h4>
+              <ul className="space-y-3 text-sm text-gray-500">
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Sistema de Maletas</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Controle Financeiro</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">App da Revendedora</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Integrações</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold uppercase tracking-widest mb-6 text-sm">Empresa</h4>
+              <ul className="space-y-3 text-sm text-gray-500">
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Sobre Nós</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Carreiras</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Partner Program</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold uppercase tracking-widest mb-6 text-sm">Legal & Suporte</h4>
+              <ul className="space-y-3 text-sm text-gray-500">
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Termos de Uso</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Política de Privacidade</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Central de Ajuda</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Status do Servidor</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-slate-900 pt-8 text-center text-xs text-gray-600 uppercase tracking-widest">
+            © {new Date().getFullYear()} NexSales Systems Ltda. Todos os direitos reservados. CNPJ: 00.000.000/0001-00
+          </div>
+        </div>
+      </footer>
+
+      {/* Chat Widget */}
+      <AIChat />
     </div>
   );
 };

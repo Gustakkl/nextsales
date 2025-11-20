@@ -52,8 +52,8 @@ export const PricingCard: React.FC<PricingCardProps> = ({ plan, billingCycle }) 
           <span className="text-gray-400 text-sm mb-1">{cycleLabel}</span>
         </div>
         {billingCycle === 'yearly' && plan.priceYearly && (
-          <div className="text-xs text-green-400 mt-2 font-bold uppercase tracking-wider">
-            Faturado anualmente (20% OFF)
+          <div className="text-xs text-green-400 mt-2 font-bold uppercase tracking-wider animate-pulse">
+            Faturado anualmente (-20%)
           </div>
         )}
       </div>
@@ -63,7 +63,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({ plan, billingCycle }) 
       <ul className="space-y-4 mb-8 flex-grow">
         {plan.features.map((feature, idx) => (
           <li key={idx} className="flex items-center gap-3 text-gray-300 text-sm group-hover:text-white transition-colors">
-            <div className={`p-1 rounded-full ${isRecommended ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-700 text-gray-400 group-hover:text-fuchsia-400'}`}>
+            <div className={`p-1 rounded-full flex-shrink-0 ${isRecommended ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-700 text-gray-400 group-hover:text-fuchsia-400'}`}>
               <Icons.Check size={12} />
             </div>
             {feature}

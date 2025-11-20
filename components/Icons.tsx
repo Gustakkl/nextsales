@@ -24,7 +24,15 @@ import {
   Smartphone,
   HelpCircle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Briefcase,
+  Users,
+  Package,
+  RefreshCw,
+  ArrowRight,
+  Instagram,
+  Facebook,
+  Linkedin
 } from 'lucide-react';
 
 export const Icons = {
@@ -52,5 +60,13 @@ export const Icons = {
   Smartphone,
   HelpCircle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Briefcase,
+  Users,
+  Package,
+  RefreshCw,
+  ArrowRight,
+  Instagram,
+  Facebook,
+  Linkedin
 };

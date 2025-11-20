@@ -15,10 +15,19 @@ export const AIChat: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to bottom on new messages
+  // Scroll to bottom on new messages with smooth behavior
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      const { scrollHeight, clientHeight } = scrollRef.current;
+      const maxScrollTop = scrollHeight - clientHeight;
+      
+      // Only scroll if content overflows
+      if (maxScrollTop > 0) {
+        scrollRef.current.scrollTo({
+          top: scrollHeight,
+          behavior: 'smooth'
+        });
+      }
     }
   }, [messages, isOpen, isLoading]);
 
@@ -89,7 +98,7 @@ export const AIChat: React.FC = () => {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-black/50" ref={scrollRef}>
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-black/50 scroll-smooth" ref={scrollRef}>
             {messages.map((msg, idx) => (
               <div
                 key={idx}
