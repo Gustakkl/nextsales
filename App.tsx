@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Icons } from './components/Icons';
 import { CyberButton } from './components/CyberButton';
 import { ProductCard } from './components/ProductCard';
@@ -146,6 +146,105 @@ const useTypewriter = (text: string, speed: number = 100) => {
 
 // --- Internal Components ---
 
+// Explicitly typed as React.FC to include intrinsic attributes like 'key'
+const AnimatedCounter: React.FC<{ value: string; label: string }> = ({ value, label }) => {
+  const [displayValue, setDisplayValue] = useState("000");
+  const ref = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !hasAnimated.current) {
+        hasAnimated.current = true;
+        
+        let iteration = 0;
+        const maxIterations = 20;
+        const interval = setInterval(() => {
+          setDisplayValue(prev => {
+            if (iteration >= maxIterations) {
+              clearInterval(interval);
+              return value;
+            }
+            
+            // Generate random characters for the "decoding" effect
+            const chars = "0123456789X%#";
+            return value.split('')
+              .map((char, index) => {
+                if (index < iteration / 2) return value[index];
+                return chars[Math.floor(Math.random() * chars.length)];
+              })
+              .join('');
+          });
+          iteration++;
+        }, 50);
+      }
+    }, { threshold: 0.5 });
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [value]);
+
+  return (
+    <div ref={ref} className="text-center group hover:scale-105 transition-transform duration-300">
+      <div className="text-3xl md:text-4xl font-black text-white font-orbitron mb-1 relative inline-block">
+        <span className="relative z-10">{displayValue}</span>
+        <div className="absolute inset-0 bg-cyan-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      </div>
+      <div className="text-xs uppercase tracking-widest text-gray-500 font-bold group-hover:text-cyan-400 transition-colors">{label}</div>
+    </div>
+  );
+};
+
+const VideoModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
+      <div className="relative w-full max-w-5xl aspect-video bg-slate-950 border border-cyan-500/30 shadow-[0_0_50px_rgba(34,211,238,0.2)] overflow-hidden rounded-lg flex flex-col">
+        <button onClick={onClose} className="absolute top-4 right-4 text-white hover:text-cyan-400 z-20 bg-black/50 p-2 rounded-full">
+          <Icons.X size={24} />
+        </button>
+        
+        {/* Video Header */}
+        <div className="bg-slate-900/80 p-2 flex justify-between items-center border-b border-slate-800">
+            <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                <span className="text-xs font-mono text-cyan-400">LIVE_FEED // SYSTEM_PREVIEW_MODE</span>
+            </div>
+            <div className="text-xs font-mono text-gray-500">1080p_60FPS</div>
+        </div>
+
+        {/* Video Placeholder / Simulation */}
+        <div className="flex-1 relative flex items-center justify-center bg-slate-900 overflow-hidden group">
+            {/* Grid Background */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+            
+            {/* Center Interface */}
+            <div className="text-center relative z-10">
+                <div className="w-20 h-20 mx-auto border-4 border-cyan-500 rounded-full flex items-center justify-center mb-6 animate-spin-slow relative">
+                     <div className="absolute inset-0 border-t-4 border-fuchsia-500 rounded-full animate-spin"></div>
+                     <Icons.Zap size={32} className="text-white" />
+                </div>
+                <h3 className="text-2xl font-orbitron text-white mb-2">NEXSALES SYSTEM</h3>
+                <p className="text-cyan-400 font-mono text-sm tracking-widest mb-8">INITIALIZING DEMO INTERFACE...</p>
+                
+                <div className="w-64 h-2 bg-slate-800 rounded-full mx-auto overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-cyan-500 to-fuchsia-500 w-full animate-progress-indeterminate"></div>
+                </div>
+            </div>
+
+            {/* Decor elements */}
+            <div className="absolute bottom-10 left-10 p-4 border border-slate-700 bg-black/50 backdrop-blur-sm rounded font-mono text-xs text-green-400">
+                <div>> LOAD_MODULE: MALETAS.EXE</div>
+                <div>> CHECKING_DATABASE... OK</div>
+                <div className="animate-pulse">> WAITING_USER_INPUT_</div>
+            </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ProcessTimeline = () => {
   const steps = [
     {
@@ -252,6 +351,7 @@ const App: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
   
   const heroTitle = useTypewriter("SISTEMA DE MALETAS V4.0", 100);
   
@@ -266,6 +366,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen font-rajdhani text-gray-200 selection:bg-fuchsia-500/30 selection:text-fuchsia-200 overflow-x-hidden">
       <MatrixRain />
+      <VideoModal isOpen={videoModalOpen} onClose={() => setVideoModalOpen(false)} />
       
       {/* Navigation */}
       <nav className={`
@@ -338,7 +439,7 @@ const App: React.FC = () => {
             <span className="text-cyan-400 text-xs uppercase tracking-[0.3em] font-bold">{heroTitle}<span className="animate-pulse">_</span></span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight tracking-tighter">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight tracking-tighter glitch-text" data-text="CONTROLE DE MALETAS E CAIXA">
             CONTROLE DE<br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-fuchsia-500 drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">
               MALETAS E CAIXA
@@ -353,7 +454,11 @@ const App: React.FC = () => {
             <CyberButton variant="pink" glow className="text-base md:text-lg px-10 py-4">
               Começar Agora
             </CyberButton>
-            <CyberButton variant="cyan" className="text-base md:text-lg px-10 py-4 bg-transparent hover:bg-cyan-950/30">
+            <CyberButton 
+              variant="cyan" 
+              className="text-base md:text-lg px-10 py-4 bg-transparent hover:bg-cyan-950/30"
+              onClick={() => setVideoModalOpen(true)}
+            >
               Ver Demonstração
             </CyberButton>
           </div>
@@ -365,10 +470,7 @@ const App: React.FC = () => {
               { val: '24/7', label: 'Sincronização Nuvem' },
               { val: 'Auto', label: 'Gestão de Comissões' }
             ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-3xl font-bold text-white font-orbitron mb-1">{stat.val}</div>
-                <div className="text-xs uppercase tracking-widest text-gray-500 font-bold">{stat.label}</div>
-              </div>
+              <AnimatedCounter key={i} value={stat.val} label={stat.label} />
             ))}
           </div>
         </div>
